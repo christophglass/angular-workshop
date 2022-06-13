@@ -7,6 +7,9 @@ import { AppState } from '../../shared/app-state';
 import { click, expectText, setFieldValue } from '../../spec-helpers/element.spec-helper';
 import { NgRxCounterComponent } from './ngrx-counter.component';
 
+/**
+ * mock state -> counter = 5
+ */
 const mockState: AppState = {
   counter: 5,
 };
@@ -15,6 +18,7 @@ const newCount = 15;
 
 describe('NgRxCounterComponent', () => {
   let fixture: ComponentFixture<NgRxCounterComponent>;
+
   let store: Store<AppState>;
 
   beforeEach(async () => {
@@ -23,6 +27,9 @@ describe('NgRxCounterComponent', () => {
       providers: [provideMockStore({ initialState: mockState })],
     }).compileComponents();
 
+    /**
+     * spy auf dispatch des stores
+     */
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
 
@@ -34,6 +41,10 @@ describe('NgRxCounterComponent', () => {
     expectText(fixture, 'count', String(mockState.counter));
   });
 
+  /**
+   * increment, decrement, es wird nur geprüft ob diese dispatches ausgeführt werden,
+   * im letzten fall wird geprüft ob der nicht ausgeführt werden soll
+   */
   it('increments the count', () => {
     click(fixture, 'increment-button');
     expect(store.dispatch).toHaveBeenCalledWith(increment());

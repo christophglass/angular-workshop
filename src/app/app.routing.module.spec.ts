@@ -20,17 +20,26 @@ describe('AppRoutingModule', () => {
     });
   });
 
+  /**
+   * überprüft ob modul geladen wurde
+   */
   it('initializes', () => {
     const appRoutingModule = TestBed.inject(AppRoutingModule);
     expect(appRoutingModule).toBeTruthy();
   });
 });
 
+/**
+ * temporäre componente wo die (fake) componenten / routen ins router-outlet geladen werden
+ */
 @Component({
   template: '<router-outlet></router-outlet>',
 })
 class RouterOutletComponent {}
 
+/**
+ * macht aus irgendeiner componente eine leere FakeComponent auf die geroutet wird
+ */
 function fakeComponent<T>(component: Type<T>): Type<T> {
   @Component({
     providers: [
@@ -44,6 +53,10 @@ function fakeComponent<T>(component: Type<T>): Type<T> {
 
   return FakeComponent as Type<T>;
 }
+
+/**
+ * hier werden alle Routen aus dem routing module auf die FakeComponente gesetzt
+ */
 
 // Replace all components in the routes with a fake
 const fakeRoutes: Routes = routes.map((route) => ({
@@ -92,6 +105,9 @@ describe('AppRoutingModule: routes', () => {
     };
   });
 
+  /**
+   * routet jeweils auf die gefakten Componenten und erwartet das diese vom Typ der jeweiligen sind
+   */
   it('routes / to the HomeComponent', async () => {
     await router.navigate(['']);
     expectComponent(HomeComponent);

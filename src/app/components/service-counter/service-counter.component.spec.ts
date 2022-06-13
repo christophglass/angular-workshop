@@ -24,6 +24,10 @@ describe('ServiceCounterComponent: integration test', () => {
     expectText(fixture, 'count', '0');
   });
 
+  /**
+   * increment, decrement, es wird nur das klicken des buttons gemacht
+   */
+
   it('increments the count', () => {
     click(fixture, 'increment-button');
     fixture.detectChanges();

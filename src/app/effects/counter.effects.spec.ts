@@ -37,20 +37,34 @@ function expectActions(effect: Observable<Action>, actions: Action[]): void {
 
 // Mocks for CounterApiService
 
+/**
+ * mockt den service mit properties des service, noch nie gesehen ;)
+ */
 type PartialCounterApiService = Pick<CounterApiService, keyof CounterApiService>;
 
+/**
+ * mockt ein saveCounter, gibt immer leeres objekt zurück
+ */
 const mockCounterApi: PartialCounterApiService = {
   saveCounter(): Observable<{}> {
     return of({});
   },
 };
 
+/**
+ * mockt saveCounter, gibt immer den apiError zurück
+ */
 const mockCounterApiError: PartialCounterApiService = {
   saveCounter(): Observable<never> {
     return throwError(apiError);
   },
 };
 
+/**
+ * 1.) spyt auf savecounter der counterApi
+ * 2.) mock action der actions aus counter.actions
+ * 3.) mock store, mock api als provider, benutze counterEffects
+ */
 function setup(actions: Action[], counterApi: PartialCounterApiService): CounterEffects {
   spyOn(counterApi, 'saveCounter').and.callThrough();
 
@@ -66,11 +80,21 @@ function setup(actions: Action[], counterApi: PartialCounterApiService): Counter
   return TestBed.inject(CounterEffects);
 }
 
+/**
+ * bekommt action und mock api
+ * setup für das mock environment
+ */
 function expectSaveOnChange(action: Action, counterApi: PartialCounterApiService): void {
   const counterEffects = setup([action], counterApi);
 
+  /**
+   * es wird erwartet, das der effekt saveOnChange$ mit der saveSuccess-Aktion aus actions aufgerufen wird
+   */
   expectActions(counterEffects.saveOnChange$, [successAction]);
 
+  /**
+   * erwartet das saveCounter des services mit der variable counter aufgerufen wird
+   */
   expect(counterApi.saveCounter).toHaveBeenCalledWith(counter);
 }
 
@@ -87,6 +111,12 @@ describe('CounterEffects', () => {
     expectSaveOnChange(resetAction, mockCounterApi);
   });
 
+  /**
+   * 3x inc
+   * auf die mocked api die immer fehler zurück gibt
+   * deshalb 3x fehler
+   * saveCounter der fehlerapi wurde aufgerufen
+   */
   it('handles an API error', () => {
     const actions = [incAction, incAction, incAction];
     const counterEffects = setup(actions, mockCounterApiError);

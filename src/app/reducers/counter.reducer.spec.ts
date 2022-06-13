@@ -1,6 +1,12 @@
 import { decrement, increment, reset } from '../actions/counter.actions';
 import { counterReducer, CounterState } from './counter.reducer';
 
+/**
+ * hier werde die counterReducer methode aus counter.reducers aufgerufen,
+ * dahin werden die actions aus counter.actions hin übergeben
+ * der state (counterState) wird jedesmal initial erzeugt bzw. überschrieben
+ */
+
 describe('counterReducer', () => {
   it('returns an initial state', () => {
     const newState = counterReducer(undefined, { type: 'init' });
@@ -25,6 +31,9 @@ describe('counterReducer', () => {
     expect(newState).toBe(0);
   });
 
+  /**
+   * ja hier wird beim Reset der Wert von 0 auf 5 gesetzt
+   */
   it('resets', () => {
     const newCount: CounterState = 5;
     const state: CounterState = 0;

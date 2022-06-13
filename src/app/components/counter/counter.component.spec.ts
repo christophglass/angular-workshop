@@ -59,6 +59,9 @@ describe('CounterComponent', () => {
   });
 
   it('emits countChange events', () => {
+    /**
+     * subscribe auf countChange emitter
+     */
     let actualCounts: number[] | undefined;
     component.countChange.pipe(take(3), toArray()).subscribe((counts) => {
       actualCounts = counts;
@@ -69,6 +72,11 @@ describe('CounterComponent', () => {
     setFieldValue(fixture, 'reset-input', String(newCount));
     click(fixture, 'reset-button');
 
+    /**
+     * 1.) 123 + 1 = 124
+     * 2.) 124 - 1 = 123
+     * 3.) reset -> 456 = 456
+     */
     expect(actualCounts).toEqual([startCount + 1, startCount, newCount]);
   });
 });

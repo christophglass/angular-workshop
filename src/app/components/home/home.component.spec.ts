@@ -19,21 +19,35 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
+  /**
+   * rendert component
+   */
   it('renders without errors', () => {
     expect(component).toBeTruthy();
   });
 
+  /**
+   * findet einen app-counter
+   */
   describe('independent counter', () => {
     it('renders an independent counter', () => {
       const el = findComponent(fixture, 'app-counter');
       expect(el).toBeTruthy();
     });
 
+    /**
+     * findet einen app-counter mit wert 5
+     */
     it('passes a start count', () => {
       const el = findComponent(fixture, 'app-counter');
       expect(el.properties.startCount).toBe(5);
     });
 
+    /**
+     * sendet einen countchange von 5 auf 5 auf einen appcounter
+     * hat einen spy auf console.log
+     * erwartet nach erhöhung entsprechende consolen ausgabe
+     */
     it('listens for count changes', () => {
       spyOn(console, 'log');
       const el = findComponent(fixture, 'app-counter');
@@ -46,11 +60,17 @@ describe('HomeComponent', () => {
     });
   });
 
+  /**
+   * findet einen app-service-counter
+   */
   it('renders a service counter', () => {
     const el = findComponent(fixture, 'app-service-counter');
     expect(el).toBeTruthy();
   });
 
+  /**
+   * findet einen app-ngrx-counter
+   */
   it('renders a NgRx counter', () => {
     const el = findComponent(fixture, 'app-ngrx-counter');
     expect(el).toBeTruthy();

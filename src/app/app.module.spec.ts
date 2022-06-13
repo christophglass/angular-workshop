@@ -11,6 +11,9 @@ describe('AppModule', () => {
     });
   });
 
+  /**
+   * prüft einfach nur ob das Modul geladen wurde
+   */
   it('initializes', () => {
     const appModule = TestBed.inject(AppModule);
     expect(appModule).toBeTruthy();
